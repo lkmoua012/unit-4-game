@@ -1,0 +1,36 @@
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 36px;
+}
+
+p {
+    color: white;
+    font-size: 24px;
+}
+
+.row{
+    border: 2px solid black;
+    padding: 10px;
+}
+
+#gameScreen {
+    background-image: url(../images/background2.jpg);
+    max-width: 75%;
+    background-size:cover;
+    min-height: 300px;
+}
+
+.fighterText{
+    font-size: 36px;
+}
+
+.sprite1{
+    transform: scale(2);
+}
+
+.sprite2{
+    transform: rotateY(180deg) scale(2);
+}
