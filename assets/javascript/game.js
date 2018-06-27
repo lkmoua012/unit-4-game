@@ -83,22 +83,27 @@ $(function() {
     $(".fightSprite").hide();
 
     // Choose Fighter 1
-    $(".mugFighter").hover(function(){
 
-        console.log( 'hovering' );
+/*
+    $(".mugFighter").hover(function(){
 
     // If hovering over Anakin and choseFighter1 = false
        if ( $(this).is("#mugAnakin") && choseFighter1 == false ){
             $("#anakinSprite1").toggle();
-    } else {
-        //    $("#anakinSprite2").toggle();
+    // When player is choosing opponent
+    } else if ( $(this).is("#mugAnakin") && choseFighter1 == true){
+            $("#anakinSprite2").toggle();
     };
 
-    /*
-       if ($(this).is("#mugObi")){
-           console.log ("Choose Obi");
+    // If hover over Obi and choseFighter1 = false
+        if ( $(this).is("#mugObi") && choseFighter1 == false ){
+           $("#obiSprite1").toggle();
+    // Choosing opponent
+    } else if ( $(this).is("#mugObi") ){
+            $("#obiSprite2").toggle();
     };
 
+    
        if ($(this).is("#mugWindu")){
            console.log ("Choose Windu");
     };
@@ -114,7 +119,57 @@ $(function() {
 
     console.log("Fighter Chosen");
 
-   })
+    // Anakin
+    if ( $(this).is("#mugAnakin") && choseFighter1 == false) {
+
+        $("#anakinSprite1").show();
+        choseFighter1 = true;
+        $(this).appendTo("#fighterText1");
+
+    } else if ( $(this).is("#mugAnakin") && choseFighter1 == true) {
+        
+        $("#anakinSprite2").show();
+        choseFighter2 = true;
+        $(this).appendTo("#fighterText2");
+
+    };
+
+    // Obi
+    if ( $(this).is("#mugObi") && choseFighter1 == false) {
+
+        $("#obiSprite1").show();
+        choseFighter1 = true;
+        $(this).appendTo("#fighterText1");
+
+    } else if ( $(this).is("#mugObi") && choseFighter1 == true) {
+        
+        $("#obiSprite2").show();
+        choseFighter2 = true;
+        $(this).appendTo("#fighterText2");
+
+    };
+
+    // if Windu
+
+    // if Dooku
+
+   });
+
+   function undoFighter() {
+        if ( $(this).is("#fighterButton1, #mugAnakin")){
+            $("anakinSprite1").hide();
+            choseFighter1 = false;
+            $("#mugAnakin").prependTo("#fighterSelect");
+        }
+        else if ( $(this).is("#fighterButton2, #mugAnakin")){
+            $("anakinSprite2").hide();
+            choseFighter2 = false;
+            $("#mugAnakin").prependTo("#fighterSelect");
+        };
+    
+
+   };
+
+
 
 // End function ready //   
-});
