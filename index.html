@@ -25,9 +25,18 @@
 
       <div class="row">
 
-          <h2 class="col-md-12 text-center" id="status">Test</h2>
+          <p class="col-md-12 text-center">
+            <button type="button" class="btn btn-primary">New Game</button>
+          </p>
+
+      </div>
+
+      <div class="row">
+
+          <h2 class="col-md-12 text-center" id="status">Choose Your Characters</h2>
 
         </div>
+
 
     </div>
 
@@ -40,22 +49,53 @@
 
         <!-- Fighter 1 -->
         <div class="col-md-4 text-center fighterText" id="fighterText1">
-            <p>FIGHTER 1</p>
+
+            <p id="fighterName1">FIGHTER 1</p>
 
         </div>
 
         <!-- Fighter Select -->
         <div class="col-md-4 text-center" id="fighterSelect">
-            <img src="assets/images/mugAnakin.jpg" class="mugFighter" id="mugAnakin">
-            <img src="assets/images/mugObi.jpg"class="mugFighter" id="mugObi">
-            <img src="assets/images/mugWindu.jpg"class="mugFighter" id="mugWindu">
-            <img src="assets/images/mugDooku.jpg"class="mugFighter" id="mugDooku">
+
+            <span class="mug1">
+
+                <img src="assets/images/mugAnakin.jpg" class="mugFighter anaSprite" id="mugAnakin">
+
+            </span>
+
+            <span class="mug2">
+
+                <img src="assets/images/mugObi.jpg"class="mugFighter obiSprite" id="mugObi">
+
+            </span>
+
+            <span class="mug3">
+
+                <img src="assets/images/mugWindu.jpg"class="mugFighter windSprite" id="mugWind">
+
+            </span>
+
+            <span class="mug4">
+
+                <img src="assets/images/mugDooku.jpg"class="mugFighter dooSprite" id="mugDoo">
+
+            </span>
+
+            <p>
+                <button type="button" class="btn btn-danger beginCombat">Begin Combat</button>
+            </p>
+
+            <span>
+                <button type="button" class="btn btn-warning atkBtn">Attack</button>
+            </span>
 
         </div>
 
         <!-- Fighter 2 -->
         <div class="col-md-4 text-center fighterText" id="fighterText2">
-            <p>FIGHTER 2</p>
+
+            <p id="fighterName2">FIGHTER 2</p>
+
         </div>
 
       </div>
@@ -66,29 +106,66 @@
         <!-- Left Side -->
         <div class="col-md-6 text-center">
 
-          <img src="assets/images/idleAnakin.gif" class="fightSprite sprite1" id="anakinSprite1">
+            <span>
 
-          <img src="assets/images/idleObi.jpg" class="fightSprite sprite1" id="obiSprite1">
+                <img src="assets/images/idleAnakin.gif" class="fightSprite sprite1 anaSprite" id="anakinSprite1">
+
+                <img src="assets/images/idleObi.jpg" class="fightSprite sprite1 obiSprite" id="obiSprite1">
+
+                <img src="assets/images/idleWindu.png" class="fightSprite sprite1 windSprite" id="windSprite1">
+
+                <img src="assets/images/idleDooku.png" class="fightSprite sprite1 dooSprite" id="dooSprite1">
+
+            </span>
 
         </div>
 
         <!-- Right Side -->
         <div class="col-md-6 text-center">
 
-            <img src="assets/images/idleAnakin.gif" class="fightSprite sprite2" id="anakinSprite2">
+            <span>
 
-            <img src="assets/images/idleObi.jpg" class="fightSprite sprite2" id="obiSprite2">
+                <img src="assets/images/idleAnakin.gif" class="fightSprite sprite2 anaSprite" id="anakinSprite2">
+
+                <img src="assets/images/idleObi.jpg" class="fightSprite sprite2 obiSprite" id="obiSprite2">
+
+                <img src="assets/images/idleWindu.png" class="fightSprite sprite2 windSprite" id="windSprite2">
+
+                <img src="assets/images/idleDooku.png" class="fightSprite sprite2 dooSprite" id="dooSprite2">
+
+            </span>
 
         </div>
 
       </div>
 
       <!-- Combat Text Box -->
-      <div class="row">
+      <div class="row top-buffer">
 
-        <div class="col-md-12" id="combatText">
+        <!-- Left HP -->
+
+        <div class="col-md-4 text-center">
+
+            <span class="hpTxt" id="leftHp"></span>
+  
+          </div>
+
+        <!-- Combat Text -->
+
+        <div class="col-md-4 text-center">
+
+          <span class="combatTxt" id="combatText1"></span>
+          <br/>
+          <span class="combatTxt" id="combatText2"></span>
 
         </div>
+
+        <!-- Right HP -->
+        <div class="col-md-4 text-center">
+
+            <span class="hpTxt" id="rightHp"></span>
+  
+          </div>
 
       </div>
 
@@ -96,7 +173,9 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src ="assets/javascript/game.js"></script>

@@ -11,16 +11,13 @@ p {
     font-size: 24px;
 }
 
-.row{
-    border: 2px solid black;
-    padding: 10px;
-}
-
 #gameScreen {
     background-image: url(../images/background2.jpg);
+    background-repeat:no-repeat;
     max-width: 75%;
     background-size:cover;
-    min-height: 300px;
+    min-height: 500px;
+    max-height: 1000px;
 }
 
 .fighterText{
@@ -34,3 +31,17 @@ p {
 .sprite2{
     transform: rotateY(180deg) scale(2);
 }
+
+.top-buffer {
+    margin-top:200px;
+}
+
+
+@media only screen and (min-width: 1200px){
+
+#gameScreen{
+    min-height: 500px;
+    max-height: 1000px;
+}
+
+};
