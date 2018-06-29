@@ -67,32 +67,32 @@ Have combat randomize animation function.
 var anakin = {
     name: "Anakin",
     hp: 100,
-    maxHP: 100,
-    atk: 12,
+    base_atk: 15,
+    atk: 15,
     c_atk: 15
 };
 
 var obi = {
     name: "Obi-Wan",
-    hp: 100,
-    maxHP: 100,
+    hp: 125,
+    base_atk: 24,
     atk: 24,
-    c_atk: 20
+    c_atk: 10
 };
 
 var wind = {
     name: "Mace Windu",
-    hp: 100,
-    maxHP: 100,
+    hp: 150,
+    base_atk: 24,
     atk: 24,
     c_atk: 20
 };
 
 var doo = {
     name: "Count Dooku",
-    hp: 100,
-    maxHP: 100,
-    atk: 24,
+    hp: 200,
+    base_atk: 6,
+    atk: 6,
     c_atk: 20
 };
 
@@ -448,15 +448,15 @@ function buildStats(){
 
 function combatCalc(){
 
-    fighter1.hp = fighter1.hp - fighter2.atk;
+    fighter1.hp = fighter1.hp - fighter2.c_atk;
 
-    $( "#combatText1" ).text(fighter2.name + " has dealt " + fighter2.atk + " points of damage to " + fighter1.name + "!" );
+    $( "#combatText1" ).text(fighter2.name + " has dealt " + fighter2.c_atk + " points of damage to " + fighter1.name + "!" );
 
     fighter2.hp = fighter2.hp - fighter1.atk;
 
     $( "#combatText2" ).text(fighter1.name + " has dealt " + fighter1.atk + " points of damage to " + fighter2.name + "!" );
 
-    (fighter1.atk*=2);
+    (fighter1.atk+=fighter1.base_atk);
 
     refresh();
 
@@ -473,6 +473,8 @@ function refresh(){
 
         fighter1.hp = 0;
         console.log("Game over");
+        $("#rightHp").text(fighter2.hp);
+
         return;
 
     };
@@ -480,6 +482,7 @@ function refresh(){
     if( fighter2.hp <= 0 ){
 
         fighter2.hp = 0;
+        $("#rightHp").text(fighter2.hp);
         console.log("Victory!");
         $( "#status").text("You have defeated " + fighter2.name +"!");
         $("#fighterName2").text("FIGHTER 2");
@@ -526,7 +529,7 @@ function refresh(){
 /* TO DO
 
 - Game Balance
-- Media query for consistent background game screen.
+    - Media query for consistent background game screen?
 - Polish
 - Gifs!
 
