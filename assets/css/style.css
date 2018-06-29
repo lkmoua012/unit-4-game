@@ -16,8 +16,16 @@ p {
     background-repeat:no-repeat;
     max-width: 75%;
     background-size:cover;
-    min-height: 500px;
-    max-height: 1000px;
+    min-height: 800px;
+    max-height: 1200px;
+}
+
+.buttonrow {
+    min-height: 150px;
+}
+
+.spriteRow {
+    min-height: 100px;
 }
 
 .fighterText{
@@ -25,17 +33,16 @@ p {
 }
 
 .sprite1{
-    transform: scale(2);
+    transform: scale(4);
 }
 
 .sprite2{
-    transform: rotateY(180deg) scale(2);
+    transform: rotateY(180deg) scale(4);
 }
 
 .top-buffer {
     margin-top:200px;
 }
-
 
 @media only screen and (min-width: 1200px){
 
@@ -44,4 +51,4 @@ p {
     max-height: 1000px;
 }
 
-};
+}

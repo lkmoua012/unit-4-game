@@ -69,7 +69,12 @@ var anakin = {
     hp: 100,
     base_atk: 15,
     atk: 15,
-    c_atk: 15
+    c_atk: 15,
+    gifIdle: "assets/images/anaIdle.gif",
+    gifAtk1: "assets/images/anaAtk1.gif",
+    gifHurt: "assets/images/anaHurt.gif",
+    gifDeath: "assets/images/anaDeath.gif",
+    animAtk1: 900,
 };
 
 var obi = {
@@ -77,7 +82,12 @@ var obi = {
     hp: 125,
     base_atk: 24,
     atk: 24,
-    c_atk: 10
+    c_atk: 10,
+    gifIdle: "assets/images/obiIdle.gif",
+    gifAtk1: "assets/images/obiAtk1.gif",
+    gifHurt: "assets/images/obiHurt.gif",
+    gifDeath: "assets/images/obiDeath.gif",
+    animAtk1: 1000,
 };
 
 var wind = {
@@ -85,7 +95,11 @@ var wind = {
     hp: 150,
     base_atk: 24,
     atk: 24,
-    c_atk: 20
+    c_atk: 20,
+    gifIdle: "assets/images/idleWindu.png",
+    gifAtk1: "assets/images/idleWindu.png",
+    gifHurt: "assets/images/idleWindu.png",
+    gifDeath: "assets/images/idleWindu.png"
 };
 
 var doo = {
@@ -93,7 +107,11 @@ var doo = {
     hp: 200,
     base_atk: 6,
     atk: 6,
-    c_atk: 20
+    c_atk: 20,
+    gifIdle: "assets/images/idleDooku.png",
+    gifAtk1: "assets/images/idleDooku.png",
+    gifHurt: "assets/images/idleDooku.png",
+    gifDeath: "assets/images/idleDooku.png",
 };
 
 // Variables
@@ -106,18 +124,34 @@ var fighter2;
 var health1 = 0;
 var health2 = 0;
 
+// Audio Bank
+
+var anaSelect = new Audio("assets/sounds/ignite1.wav");
+var obiSelect = new Audio("assets/sounds/ignite2.wav");
+var windSelect = new Audio("assets/sounds/ignite3.wav");
+var dooSelect = new Audio("assets/sounds/ignite4.wav");
+var deact = new Audio("assets/sounds/deact.wav");
+var confirm = new Audio("assets/sounds/confirm.wav");
+var swing1 = new Audio("assets/sounds/swing1.wav");
+var death = new Audio("assets/sounds/death.wav");
+var hit = new Audio("assets/sounds/hit.wav");
+
+
 // Document Ready
 $(function() {
 
     $(".fightSprite").hide();
-    $(".hpBar").hide();
     $(".atkBtn").hide();
+    $(".contBtn").hide();
+    $(".contBtn2").hide();
 
     //Events
 
     $(".mugFighter").click(fighterSelect);
     $(".beginCombat").click(beginCombat);
     $(".atkBtn").click(combatCalc);
+    $(".contBtn").click(combatCalc2);
+    $(".contBtn2").click(refresh);
 
     //
 
@@ -160,10 +194,12 @@ function fighterSelect(){
     // Anakin Lock and Cancel
     if ( $(this).is("#mugAnakin") && !choseFighter1 && !$(this).is(".lock")) {
 
+        anaSelect.play();
         $( "#anakinSprite1" ).show();
         choseFighter1 = true;
         $(this).prependTo( "#fighterText1" );
         $(this).addClass( "lock" );
+        $(this).css("transform", "rotateY(180deg)");
         $("#fighterName1").text("ANAKIN SKYWALKER");
         return;
     }
@@ -174,7 +210,8 @@ function fighterSelect(){
             alert("Please click begin combat.");
             return;
         };
-        
+
+        anaSelect.play();
         $("#anakinSprite2").show();
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
@@ -185,20 +222,23 @@ function fighterSelect(){
 
     if ( $(this).is("#mugAnakin") && $("#anakinSprite1").is(":visible") && $(this).is(".lock")) {
 
+        deact.play();
         $( "#anakinSprite1" ).hide();
         choseFighter1 = false;
         $(this).prependTo( ".mug1" );
         $(this).removeClass( "lock" );
-        $("#fighterName1").text("FIGHTER 1");
+        $(this).css("transform", "none");
+        $("#fighterName1").text("");
         return;
 
     } else if ( $(this).is("#mugAnakin") && $("#anakinSprite2").is(":visible") && $(this).is(".lock")){
 
+        deact.play();
         $( "#anakinSprite2" ).hide();
         choseFighter2 = false;
         $(this).prependTo( ".mug1" );
         $(this).removeClass( "lock" );
-        $("#fighterName2").text("FIGHTER 2");
+        $("#fighterName2").text("");
         return;
 
     };
@@ -206,6 +246,7 @@ function fighterSelect(){
     // Obi Lock and Cancel
     if ( $(this).is("#mugObi") && !choseFighter1 && !$(this).is(".lock")) {
 
+        obiSelect.play();
         $("#obiSprite1").show();
         choseFighter1 = true;
         $(this).prependTo("#fighterText1");
@@ -222,10 +263,12 @@ function fighterSelect(){
             return;
         };
 
+        obiSelect.play();
         $("#obiSprite2").show();
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
         $(this).addClass( "lock" );
+        $(this).css("transform", "rotateY(180deg)");
         $("#fighterName2").text("OBI-WAN KENOBI");
         return;
 
@@ -233,20 +276,23 @@ function fighterSelect(){
 
     if ( $(this).is("#mugObi") && $("#obiSprite1").is(":visible") && $(this).is(".lock")) {
 
+        deact.play();
         $( "#obiSprite1" ).hide();
         choseFighter1 = false;
         $(this).prependTo( ".mug2" );
         $(this).removeClass( "lock" );
-        $("#fighterName1").text("FIGHTER 1");
+        $("#fighterName1").text("");
         return;
 
     } else if ( $(this).is("#mugObi") && $("#obiSprite2").is(":visible") && $(this).is(".lock")){
 
+        deact.play();
         $( "#obiSprite2" ).hide();
         choseFighter2 = false;
         $(this).prependTo( ".mug2" );
         $(this).removeClass( "lock" );
-        $("#fighterName2").text("FIGHTER 2");
+        $(this).css("transform", "none");
+        $("#fighterName2").text("");
         return;
 
     };
@@ -254,6 +300,7 @@ function fighterSelect(){
     // Windu Lock and Cancel
     if ( $(this).is("#mugWind") && !choseFighter1 && !$(this).is(".lock")) {
 
+        windSelect.play();
         $( "#windSprite1" ).show();
         choseFighter1 = true;
         $(this).prependTo( "#fighterText1" );
@@ -269,6 +316,7 @@ function fighterSelect(){
             return;
         };
         
+        windSelect.play();
         $( "#windSprite2" ).show();
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
@@ -279,20 +327,22 @@ function fighterSelect(){
 
     if ( $(this).is( "#mugWind" ) && $( "#windSprite1" ).is(":visible") && $(this).is(".lock")) {
 
+        deact.play();
         $( "#windSprite1" ).hide();
         choseFighter1 = false;
         $(this).prependTo( ".mug3" );
         $(this).removeClass( "lock" );
-        $("#fighterName1").text("FIGHTER 1");
+        $("#fighterName1").text("");
         return;
 
     } else if ( $(this).is( "#mugWind" ) && $( "#windSprite2" ).is(":visible") && $(this).is(".lock")){
 
+        deact.play();
         $( "#windSprite2" ).hide();
         choseFighter2 = false;
         $(this).prependTo( ".mug3" );
         $(this).removeClass( "lock" );
-        $("#fighterName2").text("FIGHTER 2");
+        $("#fighterName2").text("");
         return;
 
     };
@@ -300,6 +350,7 @@ function fighterSelect(){
     // Dooku Lock and Cancel
     if ( $(this).is("#mugDoo") && !choseFighter1 && !$(this).is(".lock")) {
 
+        dooSelect.play();
         $( "#dooSprite1" ).show();
         choseFighter1 = true;
         $(this).prependTo( "#fighterText1" );
@@ -315,6 +366,7 @@ function fighterSelect(){
             return;
         };
         
+        dooSelect.play();
         $( "#dooSprite2" ).show();
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
@@ -325,20 +377,22 @@ function fighterSelect(){
 
     if ( $(this).is( "#mugDoo" ) && $( "#dooSprite1" ).is(":visible") && $(this).is(".lock")) {
 
+        deact.play();
         $( "#dooSprite1" ).hide();
         choseFighter1 = false;
         $(this).prependTo( ".mug4" );
         $(this).removeClass( "lock" );
-        $("#fighterName1").text("FIGHTER 1");
+        $("#fighterName1").text("");
         return;
 
     } else if ( $(this).is( "#mugDoo" ) && $( "#dooSprite2" ).is(":visible") && $(this).is(".lock")){
 
+        deact.play();
         $( "#dooSprite2" ).hide();
         choseFighter2 = false;
         $(this).prependTo( ".mug4" );
         $(this).removeClass( "lock" );
-        $("#fighterName2").text("FIGHTER 2");
+        $("#fighterName2").text("");
         return;
 
     };
@@ -359,12 +413,13 @@ function beginCombat(){
         return false;
     };
 
+    confirm.play();
     $( ".combatTxt" ).text("");
     $( "#status").text("Combat");
     lockFighters();
     buildStats();
     $(this).hide();
-    $(".atkBtn").fadeIn(1000);
+    $(".atkBtn").fadeIn(500);
     console.log(fighter2);
 
 };
@@ -448,22 +503,78 @@ function buildStats(){
 
 function combatCalc(){
 
+    $(".atkBtn").hide();
+
+    swing1.play();
+    $(".sprite2").attr("src", fighter2.gifAtk1);
+    $(".sprite1").attr("src", fighter1.gifHurt);
+
+    setTimeout(function(){
+
+        hit.play();
+
+    }, 200);
+
+    setTimeout(function(){
+
+        $(".sprite1").attr("src", fighter1.gifIdle);
+
+    }, 500);
+
+    setTimeout(function() {
+
+        $(".sprite2").attr("src", fighter2.gifIdle);
+        $(".contBtn").show();
+
+    }, fighter2.animAtk1);
+
     fighter1.hp = fighter1.hp - fighter2.c_atk;
 
     $( "#combatText1" ).text(fighter2.name + " has dealt " + fighter2.c_atk + " points of damage to " + fighter1.name + "!" );
 
+};
+//^End of combatCalc1()
+
+function combatCalc2(){
+
+    $(".contBtn").hide();
+
+    swing1.play();
+    $(".sprite1").attr("src", fighter1.gifAtk1);
+    $(".sprite2").attr("src", fighter2.gifHurt);
+
+    setTimeout(function(){
+
+        hit.play();
+
+    }, 200);
+
+    setTimeout(function(){
+
+        $(".sprite2").attr("src", fighter2.gifIdle);
+
+    }, 500);
+
+    setTimeout(function() {
+
+        $(".sprite1").attr("src", fighter1.gifIdle);
+
+    }, fighter1.animAtk1);
+
     fighter2.hp = fighter2.hp - fighter1.atk;
 
-    $( "#combatText2" ).text(fighter1.name + " has dealt " + fighter1.atk + " points of damage to " + fighter2.name + "!" );
+    $( "#combatText1" ).text(fighter1.name + " has dealt " + fighter1.atk + " points of damage to " + fighter2.name + "!" );
 
     (fighter1.atk+=fighter1.base_atk);
 
-    refresh();
+    window.setTimeout(refresh, 1100);
 
 };
-//^End of combatCalc()
+//^End of combatCalc2()
 
 function refresh(){
+
+    $(".atkBtn").show();
 
     $("#leftHp").text(fighter1.hp);
 
@@ -472,8 +583,10 @@ function refresh(){
     if( fighter1.hp <= 0 ){
 
         fighter1.hp = 0;
-        console.log("Game over");
-        $("#rightHp").text(fighter2.hp);
+        death.play();
+        $(".sprite1").attr("src", fighter1.gifDeath);
+        $("#leftHp").text(fighter1.hp);
+        $( "#status").text("You have been defeated. Game over!");
 
         return;
 
@@ -481,34 +594,42 @@ function refresh(){
 
     if( fighter2.hp <= 0 ){
 
+        $(".atkBtn").hide();
+        death.play();
+        $(".sprite2").attr("src", fighter2.gifDeath);
         fighter2.hp = 0;
         $("#rightHp").text(fighter2.hp);
-        console.log("Victory!");
         $( "#status").text("You have defeated " + fighter2.name +"!");
-        $("#fighterName2").text("FIGHTER 2");
 
-        if (fighter2==anakin){
-            $( ".anaSprite" ).remove();
-        };
+        setTimeout(function(){
 
-        if (fighter2==obi){
-            $( ".obiSprite" ).remove();
-        };
-
-        if (fighter2==wind){
-            $( ".windSprite" ).remove();
-        };
-
-        if (fighter2==doo){
-            $( ".dooSprite" ).remove();
-        };
-
-        fighter1.hp = fighter1.maxHP;
-        $(".beginCombat").show();
-        $(".atkBtn").hide();
-        choseFighter2 = false;
-        $(".hpBar").fadeOut(1000);
-        return;
+            if (fighter2==anakin){
+                $( ".anaSprite" ).remove();
+            };
+    
+            if (fighter2==obi){
+                $( ".obiSprite" ).remove();
+            };
+    
+            if (fighter2==wind){
+                $( ".windSprite" ).remove();
+            };
+    
+            if (fighter2==doo){
+                $( ".dooSprite" ).remove();
+            };
+    
+            $("#anakinSprite2").attr("src", anakin.gifIdle);
+            $("#obiSprite2").attr("src", obi.gifIdle);
+            $("#windSprite2").attr("src", wind.gifIdle);
+            $("#dooSprite2").attr("src", doo.gifIdle);
+            $("#fighterName2").text("");
+            fighter1.hp = fighter1.maxHP;
+            $(".beginCombat").fadeIn();
+            choseFighter2 = false;
+            return;
+    
+        }, 3000);
 
     };
 
