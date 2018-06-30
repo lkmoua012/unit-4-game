@@ -1,3 +1,7 @@
+* {
+    user-select: none;
+}
+
 h1 {
     font-size: 48px;
 }
@@ -17,15 +21,15 @@ p {
     max-width: 75%;
     background-size:cover;
     min-height: 800px;
-    max-height: 1200px;
-}
-
-.buttonrow {
-    min-height: 150px;
+    max-height: 1000px;
 }
 
 .spriteRow {
     min-height: 100px;
+}
+
+.buttonRow {
+    min-height: 150px;
 }
 
 .fighterText{
@@ -33,15 +37,19 @@ p {
 }
 
 .sprite1{
-    transform: scale(4);
+    transform: scale(3);
 }
 
 .sprite2{
-    transform: rotateY(180deg) scale(4);
+    transform: rotateY(180deg) scale(3);
 }
 
 .top-buffer {
-    margin-top:200px;
+    margin-top:250px;
+}
+
+#fighterRow {
+    padding-bottom: 50px;
 }
 
 @media only screen and (min-width: 1200px){

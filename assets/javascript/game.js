@@ -96,8 +96,8 @@ var wind = {
     base_atk: 24,
     atk: 24,
     c_atk: 20,
-    gifIdle: "assets/images/idleWindu.png",
-    gifAtk1: "assets/images/idleWindu.png",
+    gifIdle: "assets/images/windIdle.gif",
+    gifAtk1: "assets/images/windAtk1.gif",
     gifHurt: "assets/images/idleWindu.png",
     gifDeath: "assets/images/idleWindu.png"
 };
@@ -420,7 +420,6 @@ function beginCombat(){
     buildStats();
     $(this).hide();
     $(".atkBtn").fadeIn(500);
-    console.log(fighter2);
 
 };
 // ^End of beginCombat()
