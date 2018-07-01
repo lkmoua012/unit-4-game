@@ -4,15 +4,23 @@
 
 h1 {
     font-size: 48px;
+    font-family: 'Exo 2', sans-serif;
 }
 
 h2 {
     font-size: 36px;
+    font-family: 'Exo 2', sans-serif;
 }
 
 p {
     color: white;
     font-size: 24px;
+    font-family: 'Exo 2', sans-serif;
+}
+
+span {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 20px;
 }
 
 #gameScreen {
@@ -20,15 +28,15 @@ p {
     background-repeat:no-repeat;
     max-width: 75%;
     background-size:cover;
-    min-height: 800px;
+    min-height: 900px;
     max-height: 1000px;
 }
 
 .spriteRow {
-    min-height: 100px;
+    min-height: 120px;
 }
 
-.buttonRow {
+#fighterRow {
     min-height: 150px;
 }
 
@@ -45,11 +53,12 @@ p {
 }
 
 .top-buffer {
-    margin-top:250px;
+    margin-top:200px;
 }
 
-#fighterRow {
-    padding-bottom: 50px;
+.combatBox {
+    min-height: 100px;
+    color:white;
 }
 
 @media only screen and (min-width: 1200px){

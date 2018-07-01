@@ -1,48 +1,4 @@
 /*
-
-var Anakin {
-    hp: 125
-    atk: 12
-    c_atk: 15
-}
-
-var Obi-Wan {
-    hp: 150
-    atk: 18
-    c_atk: 20
-}
-
-var Windu {
-    hp: 175
-    atk: 21
-    c_atk: 30
-}
-
-var Dooku {
-    hp: 200
-    atk: 25
-    c_atk: 40
-}
-
-var fighter1 = what user picked.
-
-var fighter2 = what user picked for opponent.
-
-progress bars for hp?
-have progress bar 100% = total hp
-
-button that calls combat function
-
-COMBAT FUNCTION // Don't display until combatStart = true;
-Applies damage to both fighters.
-Display combat text.
-
-
-Function that runs RNG and stores it into a variable
-
-Function for each animation play.
-Have combat randomize animation function.
-
 --- Game Flow ---
 
 1 - Choose fighter.
@@ -53,13 +9,34 @@ Have combat randomize animation function.
 4 - Click "attack" to reduce opponent's hp.
 5 - If opponent hp <= 0
     - Player wins, update status text.
-    - Restore player hp.
     - Choose new opponent.
     - Trophy +1.
   - If player hp <= 0
     - Game Over.
     - Click "New Game."
 
+-- Cheat Sheet --
+
+Win Order
+ANAKIN
+    - Obi
+    - Dooku
+    - Windu
+
+OBI
+    - Windu
+    - Dooku
+    - Anakin
+
+WINDU
+    - Obi
+    - Anakin
+    - Dooku
+
+DOOKU
+    - Obi
+    - Windu
+    - Anakin
 
 */
 
@@ -67,51 +44,53 @@ Have combat randomize animation function.
 var anakin = {
     name: "Anakin",
     hp: 100,
-    base_atk: 15,
-    atk: 15,
-    c_atk: 15,
+    base_atk: 10,
+    atk: 10,
+    c_atk: 30,
     gifIdle: "assets/images/anaIdle.gif",
     gifAtk1: "assets/images/anaAtk1.gif",
     gifHurt: "assets/images/anaHurt.gif",
     gifDeath: "assets/images/anaDeath.gif",
-    animAtk1: 900,
+    animAtk1: 700
 };
 
 var obi = {
     name: "Obi-Wan",
     hp: 125,
-    base_atk: 24,
-    atk: 24,
-    c_atk: 10,
+    base_atk: 12,
+    atk: 12,
+    c_atk: 6,
     gifIdle: "assets/images/obiIdle.gif",
     gifAtk1: "assets/images/obiAtk1.gif",
     gifHurt: "assets/images/obiHurt.gif",
     gifDeath: "assets/images/obiDeath.gif",
-    animAtk1: 1000,
+    animAtk1: 500
 };
 
 var wind = {
     name: "Mace Windu",
     hp: 150,
-    base_atk: 24,
-    atk: 24,
-    c_atk: 20,
+    base_atk: 8,
+    atk: 8,
+    c_atk: 10,
     gifIdle: "assets/images/windIdle.gif",
     gifAtk1: "assets/images/windAtk1.gif",
-    gifHurt: "assets/images/idleWindu.png",
-    gifDeath: "assets/images/idleWindu.png"
+    gifHurt: "assets/images/windHurt.gif",
+    gifDeath: "assets/images/windDeath.gif",
+    animAtk1: 1000
 };
 
 var doo = {
     name: "Count Dooku",
     hp: 200,
-    base_atk: 6,
-    atk: 6,
-    c_atk: 20,
-    gifIdle: "assets/images/idleDooku.png",
-    gifAtk1: "assets/images/idleDooku.png",
-    gifHurt: "assets/images/idleDooku.png",
-    gifDeath: "assets/images/idleDooku.png",
+    base_atk: 3,
+    atk: 3,
+    c_atk: 14,
+    gifIdle: "assets/images/dooIdle.gif",
+    gifAtk1: "assets/images/dooAtk1.gif",
+    gifHurt: "assets/images/dooHurt.gif",
+    gifDeath: "assets/images/dooDeath.gif",
+    animAtk1: 800
 };
 
 // Variables
@@ -124,6 +103,8 @@ var fighter2;
 var health1 = 0;
 var health2 = 0;
 
+var trophy = 0;
+
 // Audio Bank
 
 var anaSelect = new Audio("assets/sounds/ignite1.wav");
@@ -135,6 +116,8 @@ var confirm = new Audio("assets/sounds/confirm.wav");
 var swing1 = new Audio("assets/sounds/swing1.wav");
 var death = new Audio("assets/sounds/death.wav");
 var hit = new Audio("assets/sounds/hit.wav");
+var duel = new Audio("assets/sounds/duel.mp3");
+var victoryMusic = new Audio("assets/sounds/end.mp3");
 
 
 // Document Ready
@@ -152,43 +135,9 @@ $(function() {
     $(".atkBtn").click(combatCalc);
     $(".contBtn").click(combatCalc2);
     $(".contBtn2").click(refresh);
+    $(".newGame").click(newGame);
 
-    //
-
-    // Choose Fighter 1
-
-
-/*function hoverFighter(){
-
-    // If hovering over Anakin and choseFighter1 = false
-        if ( $(this).is("#mugAnakin") && choseFighter1 == false ){
-            $("#anakinSprite1").toggle();
-    // When player is choosing opponent
-    }   else if ( $(this).is("#mugAnakin") && choseFighter1 == true){
-            $("#anakinSprite2").toggle();
-    };
-
-    // If hover over Obi and choseFighter1 = false
-        if ( $(this).is("#mugObi") && choseFighter1 == false ){
-            $("#obiSprite1").toggle();
-    // Choosing opponent
-    } else if ( $(this).is("#mugObi") ){
-            $("#obiSprite2").toggle();
-    };
-
-       if ($(this).is("#mugWindu")){
-           console.log ("Choose Windu");
-    };
-
-       if ($(this).is("#mugDooku")){
-           console.log ("Choose Dooku");
-    };
-    //End Hover Function
-};
-*/
-
-
-// Functions
+    // Functions
 function fighterSelect(){
 
     // Anakin Lock and Cancel
@@ -207,7 +156,8 @@ function fighterSelect(){
      else if ( $(this).is("#mugAnakin") && choseFighter1 && !$(this).is(".lock")) {
 
         if (choseFighter2){
-            alert("Please click begin combat.");
+
+            alert("Please click the button below to continue.");
             return;
         };
 
@@ -259,7 +209,7 @@ function fighterSelect(){
     else if ( $(this).is("#mugObi") && choseFighter1 && !$(this).is(".lock")) {
 
         if (choseFighter2){
-            alert("Please click begin combat.");
+            alert("Please click the button below to continue.");
             return;
         };
 
@@ -301,7 +251,7 @@ function fighterSelect(){
     if ( $(this).is("#mugWind") && !choseFighter1 && !$(this).is(".lock")) {
 
         windSelect.play();
-        $( "#windSprite1" ).show();
+        $( "#windSprite1" ).show().css("transform", "rotateY(180deg) scale(3)");
         choseFighter1 = true;
         $(this).prependTo( "#fighterText1" );
         $(this).addClass( "lock" );
@@ -312,13 +262,14 @@ function fighterSelect(){
      else if ( $(this).is("#mugWind") && choseFighter1 && !$(this).is(".lock")) {
 
         if (choseFighter2){
-            alert("Please click begin combat.");
+            alert("Please click the button below to continue.");
             return;
         };
         
         windSelect.play();
-        $( "#windSprite2" ).show();
+        $( "#windSprite2" ).show().css("transform", "scale(3)");
         choseFighter2 = true;
+        $(this).css("transform", "rotateY(180deg)");
         $(this).prependTo("#fighterText2");
         $(this).addClass( "lock" );
         $( "#fighterName2" ).text( "MACE WINDU" );
@@ -340,6 +291,7 @@ function fighterSelect(){
         deact.play();
         $( "#windSprite2" ).hide();
         choseFighter2 = false;
+        $(this).css("transform", "none");
         $(this).prependTo( ".mug3" );
         $(this).removeClass( "lock" );
         $("#fighterName2").text("");
@@ -351,8 +303,9 @@ function fighterSelect(){
     if ( $(this).is("#mugDoo") && !choseFighter1 && !$(this).is(".lock")) {
 
         dooSelect.play();
-        $( "#dooSprite1" ).show();
+        $( "#dooSprite1" ).show().css("transform", "rotateY(180deg) scale(3)");
         choseFighter1 = true;
+        $(this).css("transform", "rotateY(180deg)");
         $(this).prependTo( "#fighterText1" );
         $(this).addClass( "lock" );
         $( "#fighterName1" ).text( "COUNT DOOKU" );
@@ -362,12 +315,12 @@ function fighterSelect(){
      else if ( $(this).is("#mugDoo") && choseFighter1 && !$(this).is(".lock")) {
 
         if (choseFighter2){
-            alert("Please click begin combat.");
+            alert("Please click the button below to continue.");
             return;
         };
         
         dooSelect.play();
-        $( "#dooSprite2" ).show();
+        $( "#dooSprite2" ).show().css("transform", "scale(3)");
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
         $(this).addClass( "lock" );
@@ -380,6 +333,7 @@ function fighterSelect(){
         deact.play();
         $( "#dooSprite1" ).hide();
         choseFighter1 = false;
+        $(this).css("transform", "none");
         $(this).prependTo( ".mug4" );
         $(this).removeClass( "lock" );
         $("#fighterName1").text("");
@@ -413,6 +367,8 @@ function beginCombat(){
         return false;
     };
 
+    duel.pause();
+    duel.play();
     confirm.play();
     $( ".combatTxt" ).text("");
     $( "#status").text("Combat");
@@ -482,7 +438,7 @@ function buildStats(){
 
 
     if (fighter2 == anakin){
-        $("#leftHp").text(anakin.hp);
+        $("#rightHp").text(anakin.hp);
     };
 
     if (fighter2 == obi){
@@ -490,7 +446,7 @@ function buildStats(){
     };
 
     if (fighter2 == wind){
-        $("#leftHp").text(wind.hp);
+        $("#rightHp").text(wind.hp);
     };
 
     if (fighter2 == doo){
@@ -585,8 +541,15 @@ function refresh(){
         death.play();
         $(".sprite1").attr("src", fighter1.gifDeath);
         $("#leftHp").text(fighter1.hp);
-        $( "#status").text("You have been defeated. Game over!");
 
+        if (fighter2.hp <=0){
+           fighter2.hp = 1;
+        }
+
+        $("#rightHp").text(fighter2.hp);
+        $( "#status").text("You have been defeated. Game over!");
+        $(".atkBtn").hide();
+        // Play enemy gif victory
         return;
 
     };
@@ -599,23 +562,24 @@ function refresh(){
         fighter2.hp = 0;
         $("#rightHp").text(fighter2.hp);
         $( "#status").text("You have defeated " + fighter2.name +"!");
+        trophy++;
 
         setTimeout(function(){
 
             if (fighter2==anakin){
-                $( ".anaSprite" ).remove();
+                $( ".anaSprite" ).hide();
             };
     
             if (fighter2==obi){
-                $( ".obiSprite" ).remove();
+                $( ".obiSprite" ).hide();
             };
     
             if (fighter2==wind){
-                $( ".windSprite" ).remove();
+                $( ".windSprite" ).hide();
             };
     
             if (fighter2==doo){
-                $( ".dooSprite" ).remove();
+                $( ".dooSprite" ).hide();
             };
     
             $("#anakinSprite2").attr("src", anakin.gifIdle);
@@ -623,9 +587,9 @@ function refresh(){
             $("#windSprite2").attr("src", wind.gifIdle);
             $("#dooSprite2").attr("src", doo.gifIdle);
             $("#fighterName2").text("");
-            fighter1.hp = fighter1.maxHP;
             $(".beginCombat").fadeIn();
             choseFighter2 = false;
+            victory();
             return;
     
         }, 3000);
@@ -635,22 +599,26 @@ function refresh(){
 };
 //^End of refresh()
 
-/*function newGame(){
-    $(".fightSprite").hide();
+function newGame(){
+
+    location.reload();
+
 };
-*/
+//^End of newGame()
 
 
+function victory(){
+
+    if (trophy === 3){
+
+        $( "#status").text("Congratulations! You have defeated all fighters!");
+        $(".beginCombat").hide();
+        duel.pause();
+        victoryMusic.play();
+        // Play victory gif
+    };
+    return;
+}
 
 // DO NOT REMOVE - END OF READY FUNCTION
 });
-
-
-/* TO DO
-
-- Game Balance
-    - Media query for consistent background game screen?
-- Polish
-- Gifs!
-
-*/
