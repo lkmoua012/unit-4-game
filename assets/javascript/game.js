@@ -196,7 +196,7 @@ function fighterSelect(){
     // Obi Lock and Cancel
     if ( $(this).is("#mugObi") && !choseFighter1 && !$(this).is(".lock")) {
 
-        obiSelect.play();
+        anaSelect.play();
         $("#obiSprite1").show();
         choseFighter1 = true;
         $(this).prependTo("#fighterText1");
@@ -213,7 +213,7 @@ function fighterSelect(){
             return;
         };
 
-        obiSelect.play();
+        anaSelect.play();
         $("#obiSprite2").show();
         choseFighter2 = true;
         $(this).prependTo("#fighterText2");
@@ -250,7 +250,7 @@ function fighterSelect(){
     // Windu Lock and Cancel
     if ( $(this).is("#mugWind") && !choseFighter1 && !$(this).is(".lock")) {
 
-        windSelect.play();
+        anaSelect.play();
         $( "#windSprite1" ).show().css("transform", "rotateY(180deg) scale(3)");
         choseFighter1 = true;
         $(this).prependTo( "#fighterText1" );
@@ -266,7 +266,7 @@ function fighterSelect(){
             return;
         };
         
-        windSelect.play();
+        anaSelect.play();
         $( "#windSprite2" ).show().css("transform", "scale(3)");
         choseFighter2 = true;
         $(this).css("transform", "rotateY(180deg)");
