@@ -61,11 +61,17 @@ span {
     color:white;
 }
 
+ul {
+    list-style-type: circle;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
 @media only screen and (min-width: 1200px){
 
 #gameScreen{
     min-height: 500px;
     max-height: 1000px;
-}
-
 }
