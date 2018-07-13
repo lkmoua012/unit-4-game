@@ -100,9 +100,6 @@ var choseFighter2 = false;
 var fighter1;
 var fighter2;
 
-var health1 = 0;
-var health2 = 0;
-
 var trophy = 0;
 
 // Audio Bank
@@ -130,7 +127,7 @@ $(function() {
 
     //Events
 
-    $(".mugFighter").click(fighterSelect);
+    $(".mugFighter").on("click", fighterSelect);
     $(".beginCombat").click(beginCombat);
     $(".atkBtn").click(combatCalc);
     $(".contBtn").click(combatCalc2);
@@ -139,6 +136,10 @@ $(function() {
 
     // Functions
 function fighterSelect(){
+
+    if ($(this).is(".permaLock")){
+        return;
+    };
 
     // Anakin Lock and Cancel
     if ( $(this).is("#mugAnakin") && !choseFighter1 && !$(this).is(".lock")) {
@@ -376,6 +377,7 @@ function beginCombat(){
     buildStats();
     $(this).hide();
     $(".atkBtn").fadeIn(500);
+    $(".mugFighter").off("click");
 
 };
 // ^End of beginCombat()
@@ -384,18 +386,22 @@ function lockFighters(){
 
     if ($("#anakinSprite1").is(":visible")){
         fighter1 = anakin;
+        $("#mugAnakin").addClass( "permaLock" );
     };
 
     if ($("#obiSprite1").is(":visible")){
         fighter1 = obi;
+        $("#mugObi").addClass( "permaLock" );
     };
 
     if ($("#windSprite1").is(":visible")){
         fighter1 = wind;
+        $("#mugWind").addClass( "permaLock" );
     };
 
     if ($("#dooSprite1").is(":visible")){
         fighter1 = doo;
+        $("#mugDoo").addClass( "permaLock" );
     };
 
 
@@ -480,6 +486,7 @@ function combatCalc(){
 
         $(".sprite2").attr("src", fighter2.gifIdle);
         $(".contBtn").show();
+        refresh();
 
     }, fighter2.animAtk1);
 
@@ -513,6 +520,7 @@ function combatCalc2(){
     setTimeout(function() {
 
         $(".sprite1").attr("src", fighter1.gifIdle);
+        $(".atkBtn").show();
 
     }, fighter1.animAtk1);
 
@@ -529,7 +537,6 @@ function combatCalc2(){
 
 function refresh(){
 
-    $(".atkBtn").show();
 
     $("#leftHp").text(fighter1.hp);
 
@@ -549,6 +556,7 @@ function refresh(){
         $("#rightHp").text(fighter2.hp);
         $( "#status").text("You have been defeated. Game over!");
         $(".atkBtn").hide();
+        $(".contBtn").hide();
         // Play enemy gif victory
         return;
 
@@ -557,6 +565,7 @@ function refresh(){
     if( fighter2.hp <= 0 ){
 
         $(".atkBtn").hide();
+        $(".contBtn").hide();
         death.play();
         $(".sprite2").attr("src", fighter2.gifDeath);
         fighter2.hp = 0;
@@ -589,6 +598,7 @@ function refresh(){
             $("#fighterName2").text("");
             $(".beginCombat").fadeIn();
             choseFighter2 = false;
+            $(".mugFighter").on("click", fighterSelect);
             victory();
             return;
     
