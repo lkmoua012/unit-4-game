@@ -367,6 +367,10 @@ function beginCombat(){
         alert("Please choose your opponent.");
         return false;
     };
+    
+    if (!choseFighter1 && choseFighter2) {
+        alert("Please choose a fighter to play.");
+        return false;
 
     duel.pause();
     duel.play();
